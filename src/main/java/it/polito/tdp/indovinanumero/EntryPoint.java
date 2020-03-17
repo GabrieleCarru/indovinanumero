@@ -2,6 +2,8 @@ package it.polito.tdp.indovinanumero;
 
 import javafx.application.Application;
 import static javafx.application.Application.launch;
+
+import it.polito.tdp.indovinanumero.model.Model;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -9,13 +11,28 @@ import javafx.stage.Stage;
 
 
 public class EntryPoint extends Application {
+	
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
-        
+    	
+    	// qui è il luogo giusto dove creare il nuovo modello!
+    	Model model = new Model();
+    	FXMLController controller;
+    	
+    	// andiamo a recuperare un riferimento (un puntatore?) al controller che ci serve altrimenti non potremmo settarlo
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Scene.fxml"));
+    	
+    	// ora possiamo ottenere il riferimento direttamente dal Loader
+        Parent root = loader.load();
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/styles/Styles.css");
+        
+    	// settiamo il controller sul modello interessato
+        controller = loader.getController();
+    	controller.setModel(model);
+    	
+
         
         stage.setTitle("JavaFX and Maven");
         stage.setScene(scene);
